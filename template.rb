@@ -1,23 +1,8 @@
 require "fileutils"
 require "shellwords"
 
-def add_template_repository_to_source_path
-  if __FILE__ =~ %r{\Ahttps?://}
-    require "tmpdir"
-    source_paths.unshift(tempdir = Dir.mktmpdir("rails_default_template"))
-    at_exit { FileUtils.remove_entry(tempdir) }
-    git clone: [
-      "--quiet",
-      "https://github.com/eclectic-coding/rails_default_template.git",
-      tempdir
-    ].map(&:shellescape).join(" ")
-
-    if (branch = __FILE__[%r{rails_default_template/(.+)/template.rb}, 1])
-      Dir.chdir(tempdir) { git checkout: branch }
-    end
-  else
+def add_template_source_path
     source_paths.unshift(File.dirname(__FILE__))
-  end
 end
 
 def add_gems
@@ -25,8 +10,6 @@ def add_gems
     gem "standardrb"
     gem 'rspec-rails'
     gem 'factory_bot_rails'
-    gem 'capybara'
-    gem 'webdrivers'
     gem 'faker'
   end
 
@@ -59,9 +42,11 @@ def copy_templates
   copy_file ".rspec", force: true
   copy_file ".standard.yml"
   copy_file ".simplecov"
+  copy_file "app/assets/stylesheets/dr.css"
 
   directory "config", force: true
   directory "spec", force: true
+
 end
 
 def stop_spring
@@ -74,7 +59,7 @@ def database_setup
 end
 
 # Main setup
-add_template_repository_to_source_path
+add_template_source_path
 
 add_gems
 
