@@ -32,9 +32,9 @@ def set_application_name
 end
 
 def add_static
-  generate "controller static home"
+  generate "controller welcome home"
 
-  route "root to: 'static#home'"
+  route "root to: 'welcome#home'"
 end
 
 def copy_templates
