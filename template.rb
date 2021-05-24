@@ -42,7 +42,7 @@ def copy_templates
   copy_file ".rspec", force: true
   copy_file ".standard.yml"
   copy_file ".simplecov"
-  copy_file "app/assets/stylesheets/dr.css"
+  copy_file "app/assets/stylesheets/drifting_ruby.css"
   copy_file "app/views/layouts/application.html.erb", force: true
 
   directory "config", force: true
